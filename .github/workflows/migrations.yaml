@@ -6,10 +6,6 @@ on:
       - main
   workflow_dispatch:
 
-env:
-  # Setting an environment variable with the value of a configuration variable
-  env_var: ${{ vars.ENV_CONTEXT_VAR }}
-
 jobs:
   deploy:
     runs-on: ubuntu-22.04
@@ -17,6 +13,7 @@ jobs:
     env:
       SUPABASE_ACCESS_TOKEN: ${{ secrets.SUPABASE_ACCESS_TOKEN }}
       SUPABASE_DB_PASSWORD: ${{ secrets.SUPABASE_DB_PASSWORD }}
+      SUPABASE_PROJECT_ID: ynlqjwykxquxxpazabuc
 
     steps:
       - uses: actions/checkout@v3
@@ -26,5 +23,5 @@ jobs:
           version: 1.15.1
 
       - run: |
-          supabase link --project-ref ${{ vars.SUPABASE_PROJECT_ID }}
+          supabase link --project-ref $SUPABASE_PROJECT_ID
           supabase db push
