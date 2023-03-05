@@ -1,6 +1,14 @@
+import Login from '@/components/Login';
+import { useUser } from '@supabase/auth-helpers-react';
 import Head from 'next/head';
+import { useRouter } from 'next/router';
 
 export default function Home() {
+  const user = useUser();
+  const router = useRouter();
+
+  if (user) router.push('/app/dashboard');
+
   return (
     <>
       <Head>
@@ -9,7 +17,9 @@ export default function Home() {
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      <main>Nothing to see here</main>
+      <main>
+        <Login />
+      </main>
     </>
   );
 }
