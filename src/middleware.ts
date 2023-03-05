@@ -2,6 +2,7 @@ import { NextResponse } from 'next/server';
 import type { NextRequest } from 'next/server';
 import { createMiddlewareSupabaseClient } from '@supabase/auth-helpers-nextjs';
 import { Database } from './types/database.types';
+import { DEFAULT_PAGE } from './constants';
 
 export async function middleware(req: NextRequest) {
   const res = NextResponse.next();
@@ -16,7 +17,7 @@ export async function middleware(req: NextRequest) {
 
     // redirect to dashboard
     if (url.pathname === '/app') {
-      url.pathname = '/app/jobs';
+      url.pathname = DEFAULT_PAGE;
       return NextResponse.redirect(url);
     }
 

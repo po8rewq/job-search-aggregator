@@ -5,12 +5,13 @@ import { useMemo } from 'react';
 import { useRouter } from 'next/router';
 import { useSupabaseClient } from '@supabase/auth-helpers-react';
 import { Database } from '@/types/database.types';
+import { DEFAULT_PAGE } from '@/constants';
 
 const Login = () => {
   const router = useRouter();
 
   const redirectUrl = useMemo(() => {
-    if (router.isReady) return `${window.location.origin}/app/jobs`;
+    if (router.isReady) return `${window.location.origin}${DEFAULT_PAGE}`;
     return '';
   }, [router.isReady]);
 

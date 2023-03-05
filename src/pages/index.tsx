@@ -1,4 +1,5 @@
 import Login from '@/components/Login';
+import { DEFAULT_PAGE } from '@/constants';
 import { useUser } from '@supabase/auth-helpers-react';
 import Head from 'next/head';
 import { useRouter } from 'next/router';
@@ -7,7 +8,7 @@ export default function Home() {
   const user = useUser();
   const router = useRouter();
 
-  if (user) router.push('/app/dashboard');
+  if (user) router.push(DEFAULT_PAGE);
 
   return (
     <>
