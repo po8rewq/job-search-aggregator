@@ -10,7 +10,7 @@ const Login = () => {
   const router = useRouter();
 
   const redirectUrl = useMemo(() => {
-    if (router.isReady) return `${window.location.origin}/app/dashboard`;
+    if (router.isReady) return `${window.location.origin}/app/jobs`;
     return '';
   }, [router.isReady]);
 

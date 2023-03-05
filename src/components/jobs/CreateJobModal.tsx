@@ -18,23 +18,26 @@ const CreateJobModal = ({ show, handleClose, job }: Props) => {
   const [comment, setComment] = useState<string>('');
   const [url, setUrl] = useState<string>('');
   const [status, setStatus] = useState<number>(0);
+  const [recruiter, setRecruiter] = useState<boolean>(false);
 
   const [validated, setValidated] = useState<boolean>(false);
 
   useEffect(() => {
+    setValidated(false);
     if (job) {
-      console.log(job);
       setTitle(job.title);
       setCompany(job.company);
       setComment(job.comment || '');
       setUrl(job.url || '');
       setStatus(job.status || 0);
+      setRecruiter(job.recruiter || false);
     } else {
       setTitle('');
       setCompany('');
       setComment('');
       setUrl('');
       setStatus(0);
+      setRecruiter(false);
     }
   }, [job]);
 
@@ -63,6 +66,7 @@ const CreateJobModal = ({ show, handleClose, job }: Props) => {
           comment,
           url,
           status,
+          recruiter,
         };
         if (job) await updateJob({ ...newJob, id: job.id });
         else await createJob(newJob);
@@ -143,6 +147,16 @@ const CreateJobModal = ({ show, handleClose, job }: Props) => {
                 );
               })}
             </Form.Select>
+          </Form.Group>
+
+          <Form.Group className="mb-3" controlId="form.Recruiter">
+            <Form.Check
+              type="switch"
+              id="recruiter-switch"
+              label="This is through a recruitment agency"
+              checked={recruiter}
+              onChange={({ target }) => setRecruiter(target.checked)}
+            />
           </Form.Group>
         </Form>
       </Modal.Body>

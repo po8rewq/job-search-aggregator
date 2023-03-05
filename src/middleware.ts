@@ -16,7 +16,7 @@ export async function middleware(req: NextRequest) {
 
     // redirect to dashboard
     if (url.pathname === '/app') {
-      url.pathname = '/app/dashboard';
+      url.pathname = '/app/jobs';
       return NextResponse.redirect(url);
     }
 

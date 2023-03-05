@@ -5,7 +5,7 @@ export type Jobs = Database['public']['Tables']['jobs']['Row'];
 export enum JobStatus {
   New = '0',
   Applied = '1',
-  Rejected = '2',
-  Old = '3',
-  Interviewing = '4',
+  Interviewing = '3',
+  Rejected = '3',
+  Old = '4',
 }

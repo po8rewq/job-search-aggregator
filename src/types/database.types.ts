@@ -40,6 +40,7 @@ export interface Database {
           company: string
           created_at: string | null
           id: string
+          recruiter: boolean | null
           status: number
           title: string
           url: string | null
@@ -50,6 +51,7 @@ export interface Database {
           company: string
           created_at?: string | null
           id?: string
+          recruiter?: boolean | null
           status: number
           title: string
           url?: string | null
@@ -60,6 +62,7 @@ export interface Database {
           company?: string
           created_at?: string | null
           id?: string
+          recruiter?: boolean | null
           status?: number
           title?: string
           url?: string | null

@@ -44,7 +44,7 @@ export const makeLinkedInSearchUrl = (
   return url;
 };
 
-export const scrapLinkedInResults = async (page): Job[] => {
+export const scrapLinkedInResults = async (page: any) => {
   const result = await page.evaluate(() =>
     Array.from(
       document.querySelectorAll('ul.jobs-search__results-list li')

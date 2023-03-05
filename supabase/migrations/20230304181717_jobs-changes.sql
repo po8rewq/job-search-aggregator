@@ -23,3 +23,5 @@ for all
 to public
 using ((auth.uid() = user_id))
 with check ((auth.uid() = user_id));
+
+alter table "public"."jobs" add column "recruiter" boolean default false;

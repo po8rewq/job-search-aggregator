@@ -32,6 +32,7 @@ const useJobs = () => {
       url: newJob.url || null,
       status: newJob.status!,
       user_id: user!.id,
+      recruiter: newJob.recruiter,
     });
     if (error) throw error;
   };
@@ -45,6 +46,7 @@ const useJobs = () => {
         comment: newJob.comment,
         url: newJob.url,
         status: newJob.status,
+        recruiter: newJob.recruiter,
       })
       .eq('id', newJob.id);
     if (error) throw error;
