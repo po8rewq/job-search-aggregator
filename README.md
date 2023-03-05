@@ -7,7 +7,7 @@ npm install
 Copy and update the environment variables:
 
 ```bash
-cp .env.example .env.local
+cp .env.local.example .env.local
 ```
 
 Run the development server:
