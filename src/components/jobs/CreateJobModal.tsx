@@ -22,6 +22,15 @@ const CreateJobModal = ({ show, handleClose, job }: Props) => {
 
   const [validated, setValidated] = useState<boolean>(false);
 
+  const resetForm = () => {
+    setTitle('');
+    setCompany('');
+    setComment('');
+    setUrl('');
+    setStatus(0);
+    setRecruiter(false);
+  };
+
   useEffect(() => {
     setValidated(false);
     if (job) {
@@ -32,12 +41,7 @@ const CreateJobModal = ({ show, handleClose, job }: Props) => {
       setStatus(job.status || 0);
       setRecruiter(job.recruiter || false);
     } else {
-      setTitle('');
-      setCompany('');
-      setComment('');
-      setUrl('');
-      setStatus(0);
-      setRecruiter(false);
+      resetForm();
     }
   }, [job]);
 
@@ -45,7 +49,7 @@ const CreateJobModal = ({ show, handleClose, job }: Props) => {
     if (!job) return;
     try {
       await deleteJob(job.id);
-      handleClose();
+      closeModal();
     } catch (error) {
       // TODO: Handle error
       console.log(error);
@@ -80,8 +84,13 @@ const CreateJobModal = ({ show, handleClose, job }: Props) => {
     setValidated(true);
   };
 
+  const closeModal = () => {
+    handleClose();
+    setValidated(false);
+  };
+
   return (
-    <Modal show={show} onHide={handleClose}>
+    <Modal show={show} onHide={closeModal}>
       <Modal.Header closeButton>
         <Modal.Title>{job ? 'Update job' : 'Add a new job'}</Modal.Title>
       </Modal.Header>
