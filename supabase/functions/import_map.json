@@ -1,0 +1,8 @@
+{
+  "imports": {
+    "puppeteer": "https://deno.land/x/puppeteer@16.2.0/mod.ts",
+    "supabase-js": "https://esm.sh/@supabase/supabase-js@2",
+    "std/server": "https://deno.land/std@0.168.0/http/server.ts",
+    "dayjs": "https://esm.sh/dayjs"
+  }
+}
