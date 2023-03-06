@@ -1,3 +1,5 @@
+[Open the app](https://job-search-aggregator.vercel.app/)
+
 ## Getting Started
 
 ```bash
