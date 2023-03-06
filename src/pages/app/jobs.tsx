@@ -1,5 +1,6 @@
 import AppContainer from '@/components/AppContainer';
 import Button from 'react-bootstrap/Button';
+import Card from 'react-bootstrap/Card';
 import styled from 'styled-components';
 import { useEffect, useMemo, useState } from 'react';
 import CreateJobModal from '@/components/jobs/CreateJobModal';
@@ -48,13 +49,24 @@ const Jobs = () => {
         job={selectedJob}
       />
       <AppContainer>
-        <ButtonContainer>
-          <Button className="ms-auto" onClick={() => setShowCreateModal(true)}>
-            + Add a job
-          </Button>
-        </ButtonContainer>
-        <JobFilters filters={filters} setFilters={setFilters} />
-        <JobsTable jobs={filteredJobs} handleEdit={handleEdit} />
+        <div className="dashboard">
+          <ButtonContainer>
+            <Button
+              variant="outline-primary"
+              className="ms-auto"
+              onClick={() => setShowCreateModal(true)}
+            >
+              + Add a job
+            </Button>
+          </ButtonContainer>
+          <JobFilters filters={filters} setFilters={setFilters} />
+          <Card className="overflow-auto">
+            <Card.Body>
+              <Card.Title>My jobs</Card.Title>
+              <JobsTable jobs={filteredJobs} handleEdit={handleEdit} />
+            </Card.Body>
+          </Card>
+        </div>
       </AppContainer>
     </>
   );

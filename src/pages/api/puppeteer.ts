@@ -7,6 +7,7 @@ const puppeteer = async (req: NextApiRequest, res: NextApiResponse) => {
     process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY || ''
   );
 
+  // TODO: get data from DB
   const { data, error } = await supabase.functions.invoke(
     'function-puppeteer',
     {

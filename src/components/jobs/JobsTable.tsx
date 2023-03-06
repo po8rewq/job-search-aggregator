@@ -52,8 +52,14 @@ const JobTable = ({ jobs, handleEdit }: Props) => {
       value.toString() as unknown as JobStatus
     );
     const status = Object.keys(JobStatus)[indexOfRole];
+    const bg =
+      value === 3 || value === 4
+        ? 'danger'
+        : value === 0
+        ? 'success'
+        : 'secondary';
     return (
-      <Badge style={{ marginRight: '5px' }} bg="secondary" key={status}>
+      <Badge style={{ marginRight: '5px' }} bg={bg} key={status}>
         {status}
       </Badge>
     );
@@ -114,7 +120,7 @@ const JobTable = ({ jobs, handleEdit }: Props) => {
         <tr>
           <th>{renderHeader('Title', 'title')}</th>
           <th>{renderHeader('Company', 'company')}</th>
-          <th>{renderHeader('Added on', 'date')}</th>
+          {/* <th>{renderHeader('Added on', 'date')}</th> */}
           <th>{renderHeader('Status', 'status')}</th>
           <th></th>
         </tr>
@@ -127,11 +133,15 @@ const JobTable = ({ jobs, handleEdit }: Props) => {
               {job.title}
             </td>
             <td>{job.company}</td>
-            <td>{new Date(job.created_at!).toDateString()}</td>
+            {/* <td>{new Date(job.created_at!).toDateString()}</td> */}
             <td>{getStatus(job.status)}</td>
             <td>
               {job.url && (
-                <Link href={job.url} target="_blank">
+                <Link
+                  href={job.url}
+                  target="_blank"
+                  onClick={(e) => e.stopPropagation()}
+                >
                   <BoxArrowUpRight />
                 </Link>
               )}

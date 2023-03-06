@@ -13,7 +13,8 @@ const useJobs = () => {
       const { data, error } = await supabaseClient
         .from('jobs')
         .select('*')
-        .order('created_at', { ascending: false });
+        .order('created_at', { ascending: false })
+        .limit(50);
 
       if (error) throw error;
       if (data) setJobs(data);

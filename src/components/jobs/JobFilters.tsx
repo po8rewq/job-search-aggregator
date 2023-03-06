@@ -1,12 +1,12 @@
 import styled from 'styled-components';
 import Form from 'react-bootstrap/Form';
+import Card from 'react-bootstrap/Card';
 import { JobStatus } from '@/types/Jobs';
-import { useEffect, useState } from 'react';
 
 const FiltersContainer = styled.div`
   display: flex;
   flex-direction: row;
-  margin-bottom: 10px;
+  flex-wrap: wrap;
 `;
 
 type Props = {
@@ -24,22 +24,24 @@ const JobFilters = ({ filters, setFilters }: Props) => {
     };
 
   return (
-    <FiltersContainer>
-      {Object.keys(JobStatus).map((status) => {
-        const statusValue = Object.keys(JobStatus).indexOf(status);
-        return (
-          <Form.Check
-            key={status}
-            type="checkbox"
-            label={status}
-            inline
-            id={`filter-${statusValue}`}
-            checked={filters.includes(statusValue)}
-            onChange={handleFilterChange(statusValue)}
-          />
-        );
-      })}
-    </FiltersContainer>
+    <Card body style={{ paddingTop: '20px' }}>
+      <FiltersContainer>
+        {Object.keys(JobStatus).map((status) => {
+          const statusValue = Object.keys(JobStatus).indexOf(status);
+          return (
+            <Form.Check
+              key={status}
+              type="checkbox"
+              label={status}
+              inline
+              id={`filter-${statusValue}`}
+              checked={filters.includes(statusValue)}
+              onChange={handleFilterChange(statusValue)}
+            />
+          );
+        })}
+      </FiltersContainer>
+    </Card>
   );
 };
 export default JobFilters;

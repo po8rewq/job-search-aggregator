@@ -4,26 +4,36 @@ import { useRouter } from 'next/router';
 import Container from 'react-bootstrap/Container';
 import Nav from 'react-bootstrap/Nav';
 import Navbar from 'react-bootstrap/Navbar';
+import styled from 'styled-components';
 
-function AppNavbar() {
+const CustomNavbar = styled(Navbar).attrs({ expand: 'lg' })`
+  background-color: #fff;
+  transition: all 0.5s;
+  box-shadow: 0px 2px 20px rgb(1 41 112 / 10%);
+`;
+
+const AppNavbar = () => {
   const supabase = useSupabaseClient();
   const router = useRouter();
   const handleLogout = async () => {
-    const { error } = await supabase.auth.signOut();
+    await supabase.auth.signOut();
     router.push('/');
   };
   return (
-    <Navbar bg="light" expand="lg">
+    <CustomNavbar>
       <Container>
         <Navbar.Brand>Job search</Navbar.Brand>
         <Navbar.Toggle aria-controls="basic-navbar-nav" />
         <Navbar.Collapse id="basic-navbar-nav">
           <Nav className="me-auto">
-            {/* <Link href="/app/dashboard" legacyBehavior passHref>
-              <Nav.Link>Dashboard</Nav.Link>
-            </Link>
             <Link href="/app/jobs" legacyBehavior passHref>
               <Nav.Link>Jobs</Nav.Link>
+            </Link>
+            <Link href="/app/search" legacyBehavior passHref>
+              <Nav.Link>Job searches</Nav.Link>
+            </Link>
+            {/* <Link href="/app/settings" legacyBehavior passHref>
+              <Nav.Link>Settings</Nav.Link>
             </Link> */}
           </Nav>
           <Nav className="ms-auto">
@@ -31,8 +41,8 @@ function AppNavbar() {
           </Nav>
         </Navbar.Collapse>
       </Container>
-    </Navbar>
+    </CustomNavbar>
   );
-}
+};
 
 export default AppNavbar;

@@ -92,6 +92,41 @@ export interface Database {
           lastname?: string | null
         }
       }
+      searches: {
+        Row: {
+          active: boolean
+          created_at: string | null
+          id: number
+          jobType: string | null
+          location: string | null
+          user_id: string
+          website: string | null
+          words: string | null
+          workType: string | null
+        }
+        Insert: {
+          active?: boolean
+          created_at?: string | null
+          id?: number
+          jobType?: string | null
+          location?: string | null
+          user_id: string
+          website?: string | null
+          words?: string | null
+          workType?: string | null
+        }
+        Update: {
+          active?: boolean
+          created_at?: string | null
+          id?: number
+          jobType?: string | null
+          location?: string | null
+          user_id?: string
+          website?: string | null
+          words?: string | null
+          workType?: string | null
+        }
+      }
     }
     Views: {
       [_ in never]: never
