@@ -15,11 +15,22 @@ import styled from 'styled-components';
 import { useEffect, useState } from 'react';
 import { Search } from '@/types/Search';
 import useSearches from '@/hooks/useSearches';
+import Link from 'next/link';
 
 const ButtonContainer = styled.div`
   button {
     margin-right: 5px;
   }
+`;
+
+const CardBody = styled(Card.Body)<{ active: string }>`
+  margin-top: 20px;
+  ${({ active }) =>
+    active === 'false' &&
+    `
+    cursor: pointer;
+    input, select { cursor: pointer; }
+  `}
 `;
 
 type SearchCardProps = {
@@ -118,95 +129,109 @@ const SearchCard = ({ item, onSave, onDelete, reload }: SearchCardProps) => {
     }
   };
 
+  const handleClick = (e: any) => {
+    if (!readOnly) {
+      e.preventDefault();
+      e.stopPropagation();
+    }
+  };
+
   return (
     <Card>
-      <Card.Body style={{ marginTop: '20px' }}>
-        <Form noValidate validated={validated} onSubmit={submitForm}>
-          <Row>
-            <Col>
-              <Form.Control
-                id="words"
-                placeholder="frontend, developer"
-                value={words}
-                onChange={({ target }) => setWords(target.value)}
-                plaintext={readOnly}
-                readOnly={readOnly}
-                required
-              />
-            </Col>
-            <Form.Group as={Col} controlId="location">
-              <Form.Select
-                value={location}
-                onChange={({ target }) => setLocation(target.value)}
-                disabled={readOnly}
-                required
-              >
-                <option value="uk">United Kingdom</option>
-                <option value="europe">Europe</option>
-                <option value="france">France</option>
-              </Form.Select>
-            </Form.Group>
-            <Form.Group as={Col} controlId="jobType">
-              <Form.Select
-                value={jobType}
-                onChange={({ target }) => setJobType(target.value)}
-                disabled={readOnly}
-                required
-              >
-                <option value="contract">Contract</option>
-                <option value="fulltime">Full time</option>
-                <option value="parttime">Part time</option>
-              </Form.Select>
-            </Form.Group>
-            <Form.Group as={Col} controlId="workType">
-              <Form.Select
-                value={workType}
-                onChange={({ target }) => setWorkType(target.value)}
-                disabled={readOnly}
-                required
-              >
-                <option value="remote">Remote</option>
-                <option value="onsite">On site</option>
-                <option value="hybrid">Hybrid</option>
-              </Form.Select>
-            </Form.Group>
-            <Form.Group as={Col} controlId="website">
-              <Form.Select
-                value={website}
-                onChange={({ target }) => setWebsite(target.value)}
-                disabled={readOnly}
-                required
-              >
-                <option>LinkedIn</option>
-              </Form.Select>
-            </Form.Group>
-            <Col>
-              {readOnly ? (
-                <ButtonContainer>
-                  <Button onClick={handleEdit}>
-                    <PencilSquare />
-                  </Button>
-                  <Button onClick={handlePause}>
-                    {item?.active ? <PauseFill /> : <PlayFill />}
-                  </Button>
-                  <Button variant="danger" onClick={handleDelete}>
-                    <Trash />
-                  </Button>
-                </ButtonContainer>
-              ) : (
-                <ButtonContainer>
-                  <Button variant="success" type="submit">
-                    <CheckLg />
-                  </Button>
-                  <Button variant="warning" onClick={handleDelete}>
-                    <XLg />
-                  </Button>
-                </ButtonContainer>
-              )}
-            </Col>
-          </Row>
-        </Form>
-      </Card.Body>
+      <CardBody active={!readOnly ? 'true' : 'false'}>
+        <Link href={`/app/search/${item?.id}`}>
+          <Form noValidate validated={validated} onSubmit={submitForm}>
+            <Row>
+              <Col>
+                <Form.Control
+                  id="words"
+                  placeholder="frontend, developer"
+                  value={words}
+                  onChange={({ target }) => setWords(target.value)}
+                  plaintext={readOnly}
+                  readOnly={readOnly}
+                  required
+                  onClick={handleClick}
+                />
+              </Col>
+              <Form.Group as={Col} controlId="location">
+                <Form.Select
+                  value={location}
+                  onChange={({ target }) => setLocation(target.value)}
+                  disabled={readOnly}
+                  required
+                  onClick={handleClick}
+                >
+                  <option value="uk">United Kingdom</option>
+                  <option value="europe">Europe</option>
+                  <option value="france">France</option>
+                </Form.Select>
+              </Form.Group>
+              <Form.Group as={Col} controlId="jobType">
+                <Form.Select
+                  value={jobType}
+                  onChange={({ target }) => setJobType(target.value)}
+                  disabled={readOnly}
+                  required
+                  onClick={handleClick}
+                >
+                  <option value="contract">Contract</option>
+                  <option value="fulltime">Full time</option>
+                  <option value="parttime">Part time</option>
+                </Form.Select>
+              </Form.Group>
+              <Form.Group as={Col} controlId="workType">
+                <Form.Select
+                  value={workType}
+                  onChange={({ target }) => setWorkType(target.value)}
+                  disabled={readOnly}
+                  required
+                  onClick={handleClick}
+                >
+                  <option value="remote">Remote</option>
+                  <option value="onsite">On site</option>
+                  <option value="hybrid">Hybrid</option>
+                </Form.Select>
+              </Form.Group>
+              <Form.Group as={Col} controlId="website">
+                <Form.Select
+                  value={website}
+                  onChange={({ target }) => setWebsite(target.value)}
+                  disabled={readOnly}
+                  required
+                  onClick={handleClick}
+                >
+                  <option>LinkedIn</option>
+                </Form.Select>
+              </Form.Group>
+              <Col>
+                {readOnly ? (
+                  <ButtonContainer>
+                    <Button onClick={handleEdit}>
+                      <PencilSquare />
+                    </Button>
+                    <Button onClick={handlePause}>
+                      {item?.active ? <PauseFill /> : <PlayFill />}
+                    </Button>
+                    <Button variant="danger" onClick={handleDelete}>
+                      <Trash />
+                    </Button>
+                  </ButtonContainer>
+                ) : (
+                  <ButtonContainer>
+                    <Button variant="success" type="submit">
+                      <CheckLg />
+                    </Button>
+                    <Button variant="warning" onClick={handleDelete}>
+                      <XLg />
+                    </Button>
+                  </ButtonContainer>
+                )}
+              </Col>
+            </Row>
+          </Form>
+        </Link>
+      </CardBody>
     </Card>
   );
 };

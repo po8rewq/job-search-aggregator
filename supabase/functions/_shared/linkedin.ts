@@ -39,7 +39,7 @@ export const makeLinkedInSearchUrl = (
   )}&refresh=true&f_TPR=&f_JT=${jobTypes.join(
     '%2C'
   )}&f_TPR=r604800&f_WT=${workType.join('%2C')}`;
-  // &position=1&pageNum=0 - TODO: pagination
+  // &position=1&pageNum=0 - TODO: pagination ?
 
   return url;
 };

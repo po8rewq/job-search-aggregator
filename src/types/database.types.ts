@@ -34,6 +34,35 @@ export interface Database {
   }
   public: {
     Tables: {
+      jobResults: {
+        Row: {
+          created_at: string
+          id: number
+          searchId: number | null
+          title: string | null
+          url: string | null
+          user_id: string | null
+          website: string | null
+        }
+        Insert: {
+          created_at?: string
+          id?: number
+          searchId?: number | null
+          title?: string | null
+          url?: string | null
+          user_id?: string | null
+          website?: string | null
+        }
+        Update: {
+          created_at?: string
+          id?: number
+          searchId?: number | null
+          title?: string | null
+          url?: string | null
+          user_id?: string | null
+          website?: string | null
+        }
+      }
       jobs: {
         Row: {
           comment: string | null
@@ -96,6 +125,7 @@ export interface Database {
         Row: {
           active: boolean
           created_at: string | null
+          executed_at: string | null
           id: number
           jobType: string | null
           location: string | null
@@ -107,6 +137,7 @@ export interface Database {
         Insert: {
           active?: boolean
           created_at?: string | null
+          executed_at?: string | null
           id?: number
           jobType?: string | null
           location?: string | null
@@ -118,6 +149,7 @@ export interface Database {
         Update: {
           active?: boolean
           created_at?: string | null
+          executed_at?: string | null
           id?: number
           jobType?: string | null
           location?: string | null
