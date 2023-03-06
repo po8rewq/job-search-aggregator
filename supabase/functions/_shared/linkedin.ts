@@ -1,4 +1,4 @@
-import { Job } from './types/Job';
+import { Job } from './types/Job.ts';
 
 // TODO: validate input
 export const makeLinkedInSearchUrl = (
