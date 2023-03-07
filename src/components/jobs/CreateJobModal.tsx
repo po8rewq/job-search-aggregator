@@ -74,7 +74,7 @@ const CreateJobModal = ({ show, handleClose, job }: Props) => {
         };
         if (job) await updateJob({ ...newJob, id: job.id });
         else await createJob(newJob);
-        handleClose();
+        closeModal();
       } catch (error) {
         // TODO: Handle error
         console.log(error);
