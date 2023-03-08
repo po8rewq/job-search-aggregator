@@ -52,12 +52,10 @@ const JobTable = ({ jobs, handleEdit }: Props) => {
       value.toString() as unknown as JobStatus
     );
     const status = Object.keys(JobStatus)[indexOfRole];
-    const bg =
-      value === 3 || value === 4
-        ? 'danger'
-        : value === 0
-        ? 'success'
-        : 'secondary';
+    let bg = 'secondary'; // applied
+    if (value === 3 || value === 4) bg = 'danger'; // rejected | old
+    else if (value === 0) bg = 'success'; // new
+    else if (value === 2) bg = 'info'; // interviewing
     return (
       <Badge style={{ marginRight: '5px' }} bg={bg} key={status}>
         {status}
@@ -114,6 +112,10 @@ const JobTable = ({ jobs, handleEdit }: Props) => {
     );
   };
 
+  const formatUrl = (url: string) => {
+    return url.startsWith('http') ? url : `http://${url}`;
+  };
+
   return (
     <CustomTable>
       <thead>
@@ -138,7 +140,7 @@ const JobTable = ({ jobs, handleEdit }: Props) => {
             <td>
               {job.url && (
                 <Link
-                  href={job.url}
+                  href={formatUrl(job.url)}
                   target="_blank"
                   onClick={(e) => e.stopPropagation()}
                 >

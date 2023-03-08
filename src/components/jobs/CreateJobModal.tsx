@@ -62,6 +62,7 @@ const CreateJobModal = ({ show, handleClose, job }: Props) => {
     const form = e.currentTarget;
     if (form.checkValidity() === false) {
       e.stopPropagation();
+      setValidated(true);
     } else {
       try {
         const newJob = {
@@ -74,21 +75,22 @@ const CreateJobModal = ({ show, handleClose, job }: Props) => {
         };
         if (job) await updateJob({ ...newJob, id: job.id });
         else await createJob(newJob);
+
         closeModal();
       } catch (error) {
         // TODO: Handle error
         console.log(error);
       }
     }
-
-    setValidated(true);
   };
 
   const closeModal = () => {
-    handleClose();
+    resetForm();
     setValidated(false);
+    handleClose();
   };
 
+  if (!show) return null;
   return (
     <Modal show={show} onHide={closeModal}>
       <Modal.Header closeButton>

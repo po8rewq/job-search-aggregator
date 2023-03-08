@@ -31,13 +31,18 @@ const Jobs = () => {
 
   const [showCreateModal, setShowCreateModal] = useState<boolean>(false);
   const handleModalClose = () => {
-    setReload(reload + 1);
     setSelectedJob(null);
     setShowCreateModal(false);
+    setReload(reload + 1);
   };
 
   const handleEdit = (job: Jobs) => {
     setSelectedJob(job);
+    setShowCreateModal(true);
+  };
+
+  const handleAddNew = () => {
+    setSelectedJob(null);
     setShowCreateModal(true);
   };
 
@@ -54,7 +59,7 @@ const Jobs = () => {
             <Button
               variant="outline-primary"
               className="ms-auto"
-              onClick={() => setShowCreateModal(true)}
+              onClick={handleAddNew}
             >
               + Add a job
             </Button>
