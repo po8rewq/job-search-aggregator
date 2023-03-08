@@ -6,11 +6,7 @@ import { serve } from 'std/server';
 import puppeteer from 'puppeteer';
 import { createClient } from 'supabase-js';
 import dayjs from 'dayjs';
-
-import {
-  makeLinkedInSearchUrl,
-  scrapLinkedInResults,
-} from '../_shared/linkedin.ts';
+import { scrapFactory } from '../_shared/scrapFactory.ts';
 
 serve(async (req: Request) => {
   try {
@@ -45,44 +41,45 @@ serve(async (req: Request) => {
     const page = await browser.newPage();
 
     const promises = data.map(async (search) => {
-      if (search.website == 'linkedin') {
-        const url = makeLinkedInSearchUrl(
-          search.words.split(','),
-          [search.jobType],
-          [search.workType],
-          [search.location]
+      const { makeUrl, scrap } = scrapFactory(search.website);
+
+      const url = makeUrl(
+        search.words.split(','),
+        [search.jobType],
+        [search.workType],
+        search.location
+      );
+
+      await page.goto(url);
+      const jobs = await scrap(page);
+
+      if (jobs) {
+        // TODO: insert only if url doesn't exists
+        await supabaseClient.from('jobResults').insert(
+          jobs.map((job) => {
+            return {
+              searchId: search.id,
+              title: job.title,
+              url: job.href,
+              website: search.website,
+              user_id: search.user_id,
+            };
+          })
         );
-
-        await page.goto(url);
-        const jobs = await scrapLinkedInResults(page);
-
-        if (jobs) {
-          // TODO: insert only if url doesn't exists
-          await supabaseClient.from('jobResults').insert(
-            jobs.map((job) => {
-              return {
-                searchId: search.id,
-                title: job.title,
-                url: job.href,
-                website: 'linkedin',
-                user_id: search.user_id,
-              };
-            })
-          );
-        }
-
-        // update search executed_at
-        await supabaseClient
-          .from('searches')
-          .update({ executed_at: new Date() })
-          .eq('id', search.id);
-      } else {
-        console.log(search.website + ' not implemented yet');
-        return Promise.resolve();
       }
+
+      // update search executed_at
+      await supabaseClient
+        .from('searches')
+        .update({ executed_at: new Date() })
+        .eq('id', search.id);
     });
 
-    await Promise.all(promises);
+    try {
+      await Promise.all(promises);
+    } catch (error) {
+      console.log(error);
+    }
 
     await browser.disconnect();
 

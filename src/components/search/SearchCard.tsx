@@ -162,9 +162,13 @@ const SearchCard = ({ item, onSave, onDelete, reload }: SearchCardProps) => {
                   required
                   onClick={handleClick}
                 >
-                  <option value="uk">United Kingdom</option>
                   <option value="europe">Europe</option>
                   <option value="france">France</option>
+                  <option value="germany">Germany</option>
+                  <option value="italy">Italy</option>
+                  <option value="spain">Spain</option>
+                  <option value="uk">United Kingdom</option>
+                  <option value="us">United States</option>
                 </Form.Select>
               </Form.Group>
               <Form.Group as={Col} controlId="jobType">
@@ -201,7 +205,7 @@ const SearchCard = ({ item, onSave, onDelete, reload }: SearchCardProps) => {
                   required
                   onClick={handleClick}
                 >
-                  <option>LinkedIn</option>
+                  <option value="linkedin">LinkedIn</option>
                 </Form.Select>
               </Form.Group>
               <Col>

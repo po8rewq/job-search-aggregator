@@ -5,9 +5,17 @@ export const makeLinkedInSearchUrl = (
   search: string[],
   searchJobType: string[],
   searchWorkType: string[],
-  location: string[]
+  location: string
 ) => {
-  const geoId = '101165590'; // UK
+  let geoId = '';
+  if (location === 'uk') geoId = '101165590';
+  else if (location === 'france') geoId = '105015875';
+  else if (location === 'us') geoId = '103644278';
+  else if (location === 'germany') geoId = '101282230';
+  else if (location === 'spain') geoId = '105646813';
+  else if (location === 'italy') geoId = '103350119';
+  else if (location === 'europe') geoId = '91000000';
+
   const jobTypes = searchJobType.map((e) => {
     switch (e) {
       case 'fulltime':
@@ -34,7 +42,9 @@ export const makeLinkedInSearchUrl = (
     }
   });
 
-  const url = `https://www.linkedin.com/jobs/search/?geoId=${geoId}&keywords=${search.join(
+  let url = 'https://www.linkedin.com/jobs/search/?';
+  url += `geoId=${geoId}`;
+  url += `&keywords=${search.join(
     '%20'
   )}&refresh=true&f_TPR=&f_JT=${jobTypes.join(
     '%2C'

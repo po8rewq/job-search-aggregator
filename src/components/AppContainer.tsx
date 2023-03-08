@@ -1,6 +1,6 @@
+import Head from 'next/head';
 import Link from 'next/link';
 import { PropsWithChildren } from 'react';
-import { Github } from 'react-bootstrap-icons';
 import Container from 'react-bootstrap/Container';
 import styled from 'styled-components';
 import AppNavbar from './AppNavbar';
@@ -19,16 +19,22 @@ const AppContainer = ({ children }: PropsWithChildren) => {
   return (
     <>
       <header>
+        <Head>
+          <title>Job search aggregator</title>
+        </Head>
         <AppNavbar />
       </header>
       <main>
         <Container style={{ marginTop: '20px' }}>{children}</Container>
       </main>
       <Footer>
-        Created by <Link href="https://revolugame.com">revolugame.com</Link> |{' '}
+        Created by <Link href="https://revolugame.com">revolugame.com</Link>
+        <br />
+        Found an issue with this page? Fix it on{' '}
         <Link href="https://github.com/po8rewq/job-search-aggregator">
-          <Github />
+          GitHub
         </Link>
+        .
       </Footer>
     </>
   );
