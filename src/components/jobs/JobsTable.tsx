@@ -54,7 +54,7 @@ const JobTable = ({ jobs, handleEdit }: Props) => {
     const status = Object.keys(JobStatus)[indexOfRole];
     let bg = 'secondary'; // applied
     if (value === 3 || value === 4) bg = 'danger'; // rejected | old
-    else if (value === 0) bg = 'success'; // new
+    else if (value === 0 || value === 5) bg = 'success'; // new
     else if (value === 2) bg = 'info'; // interviewing
     return (
       <Badge style={{ marginRight: '5px' }} bg={bg} key={status}>

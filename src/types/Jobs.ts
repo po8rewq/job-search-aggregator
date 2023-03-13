@@ -8,4 +8,5 @@ export enum JobStatus {
   Interviewing = '2',
   Rejected = '3',
   Old = '4',
+  Contract = '5',
 }
