@@ -128,6 +128,13 @@ const JobTable = ({ jobs, handleEdit }: Props) => {
         </tr>
       </thead>
       <tbody>
+        {sortedJobs.length === 0 && (
+          <tr>
+            <td colSpan={4} style={{ textAlign: 'center' }}>
+              No jobs found.
+            </td>
+          </tr>
+        )}
         {sortedJobs.map((job) => (
           <tr key={job.id} onClick={() => handleEdit(job)}>
             <td className="title">

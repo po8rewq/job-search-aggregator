@@ -12,12 +12,12 @@ const useJobs = () => {
     try {
       const { data, error } = await supabaseClient
         .from('jobs')
-        .select('*')
+        .select('id, company, title, comment, url, status, recruiter')
         .order('created_at', { ascending: false })
         .limit(50);
 
       if (error) throw error;
-      if (data) setJobs(data);
+      if (data) setJobs(data as Jobs[]);
     } catch (error) {
       setJobs([]);
       console.error(error);
@@ -26,6 +26,13 @@ const useJobs = () => {
   };
 
   const createJob = async (newJob: Partial<Jobs>) => {
+    // TODO: check if url already exists
+    // const { data: existingJob, error: existingJobError } = await supabaseClient
+    //   .from('jobs')
+    //   .select('id')
+    //   .eq('url', newJob.url)
+    //   .eq('user_id', user!.id);
+
     const { error } = await supabaseClient.from('jobs').insert({
       title: newJob.title!,
       company: newJob.company!,
@@ -39,6 +46,8 @@ const useJobs = () => {
   };
 
   const updateJob = async (newJob: Partial<Jobs>) => {
+    // TODO: if url changes, check if it exists in another entry
+
     const { error } = await supabaseClient
       .from('jobs')
       .update({

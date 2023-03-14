@@ -8,6 +8,9 @@ import useJobs from '@/hooks/useJobs';
 import { Jobs } from '@/types/Jobs';
 import JobsTable from '@/components/jobs/JobsTable';
 import JobFilters from '@/components/jobs/JobFilters';
+import SearchForm from '@/components/jobs/Search';
+import useDebounce from '@/hooks/useDebounce';
+import useSearchJobs from '@/hooks/useSearchJobs';
 
 const ButtonContainer = styled.div`
   margin-bottom: 10px;
@@ -16,18 +19,27 @@ const ButtonContainer = styled.div`
 
 const Jobs = () => {
   const { jobs, getJobs } = useJobs();
+  const { searchJobs, jobs: jobResults } = useSearchJobs();
+  const [searchText, setSearchText] = useState<string>('');
   const [reload, setReload] = useState<number>(0);
   const [selectedJob, setSelectedJob] = useState<Jobs | null>(null);
+  const { debounce } = useDebounce();
 
-  const [filters, setFilters] = useState<number[]>([0, 1, 2]); // TODO:
+  const [filters, setFilters] = useState<number[]>([0, 1, 2]);
 
   useEffect(() => {
-    getJobs();
+    if (searchText.trim() === '') getJobs();
+    else searchJobs(searchText);
   }, [reload]); // eslint-disable-line react-hooks/exhaustive-deps
 
+  const jobToDisplay = useMemo(() => {
+    if (jobResults) return jobResults;
+    return jobs;
+  }, [jobs, jobResults]);
+
   const filteredJobs = useMemo(() => {
-    return jobs.filter((job) => filters.includes(job.status));
-  }, [jobs, filters]);
+    return jobToDisplay.filter((job) => filters.includes(job.status));
+  }, [jobToDisplay, filters]);
 
   const [showCreateModal, setShowCreateModal] = useState<boolean>(false);
   const handleModalClose = () => {
@@ -44,6 +56,14 @@ const Jobs = () => {
   const handleAddNew = () => {
     setSelectedJob(null);
     setShowCreateModal(true);
+  };
+
+  const handleSearch = (search: string) => {
+    const callApi = async () => {
+      await searchJobs(search);
+    };
+    setSearchText(search);
+    debounce(callApi, 400);
   };
 
   return (
@@ -65,6 +85,7 @@ const Jobs = () => {
             </Button>
           </ButtonContainer>
           <JobFilters filters={filters} setFilters={setFilters} />
+          <SearchForm handleSearch={handleSearch} />
           <Card className="overflow-auto">
             <Card.Body>
               <Card.Title>My jobs</Card.Title>
