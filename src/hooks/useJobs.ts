@@ -8,13 +8,21 @@ const useJobs = () => {
   const user = useUser();
   const [jobs, setJobs] = useState<Jobs[]>([]);
 
-  const getJobs = async () => {
+  const getJobs = async (statuses?: number[]) => {
     try {
-      const { data, error } = await supabaseClient
+      const query = supabaseClient
         .from('jobs')
         .select('id, company, title, comment, url, status, recruiter')
         .order('created_at', { ascending: false })
         .limit(50);
+
+      if (statuses && statuses.length > 0)
+        query.in(
+          'status',
+          statuses.map((s) => s.toString())
+        );
+
+      const { data, error } = await query;
 
       if (error) throw error;
       if (data) setJobs(data as Jobs[]);

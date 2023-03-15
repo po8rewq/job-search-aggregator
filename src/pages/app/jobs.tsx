@@ -28,18 +28,14 @@ const Jobs = () => {
   const [filters, setFilters] = useState<number[]>([0, 1, 2]);
 
   useEffect(() => {
-    if (searchText.trim() === '') getJobs();
+    if (searchText.trim() === '') getJobs(filters);
     else searchJobs(searchText);
-  }, [reload]); // eslint-disable-line react-hooks/exhaustive-deps
+  }, [reload, filters]); // eslint-disable-line react-hooks/exhaustive-deps
 
   const jobToDisplay = useMemo(() => {
     if (jobResults) return jobResults;
     return jobs;
   }, [jobs, jobResults]);
-
-  const filteredJobs = useMemo(() => {
-    return jobToDisplay.filter((job) => filters.includes(job.status));
-  }, [jobToDisplay, filters]);
 
   const [showCreateModal, setShowCreateModal] = useState<boolean>(false);
   const handleModalClose = () => {
@@ -89,7 +85,7 @@ const Jobs = () => {
           <Card className="overflow-auto">
             <Card.Body>
               <Card.Title>My jobs</Card.Title>
-              <JobsTable jobs={filteredJobs} handleEdit={handleEdit} />
+              <JobsTable jobs={jobToDisplay} handleEdit={handleEdit} />
             </Card.Body>
           </Card>
         </div>
