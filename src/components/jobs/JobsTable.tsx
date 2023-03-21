@@ -10,35 +10,8 @@ import { Jobs, JobStatus } from '@/types/Jobs';
 import Badge from 'react-bootstrap/Badge';
 import OverlayTrigger from 'react-bootstrap/OverlayTrigger';
 import Tooltip from 'react-bootstrap/Tooltip';
-import styled from 'styled-components';
 import { useMemo, useState } from 'react';
-
-const CustomTable = styled(Table).attrs({
-  striped: true,
-  hover: true,
-  responsive: true,
-})`
-  thead tr th svg {
-    cursor: pointer;
-  }
-
-  tbody tr td {
-    cursor: pointer;
-  }
-
-  .title {
-    display: flex;
-    align-items: center;
-
-    svg {
-      margin-right: 5px;
-    }
-  }
-`;
-
-const RecruiterAlert = styled.div`
-  color: #ff9800;
-`;
+import { CustomTable, RecruiterAlert } from './styles';
 
 type Props = {
   jobs: Jobs[];

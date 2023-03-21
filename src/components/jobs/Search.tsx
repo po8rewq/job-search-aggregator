@@ -22,10 +22,14 @@ const Search = ({ handleSearch }: Props) => {
     handleSearch('');
   };
 
+  const onSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+  };
+
   return (
     <Card style={{ paddingTop: '15px' }}>
       <Card.Body style={{ padding: '0 20px' }}>
-        <Form>
+        <Form onSubmit={onSubmit}>
           <InputGroup className="mb-3">
             <Form.Control
               type="text"

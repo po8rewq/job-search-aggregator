@@ -6,7 +6,7 @@ import styled from 'styled-components';
 import AppNavbar from './AppNavbar';
 
 const Footer = styled.footer`
-  margin-top: 20px;
+  margin: 20px 0;
   text-align: center;
   font-size: 12px;
 
@@ -18,12 +18,10 @@ const Footer = styled.footer`
 const AppContainer = ({ children }: PropsWithChildren) => {
   return (
     <>
-      <header>
-        <Head>
-          <title>Job search aggregator</title>
-        </Head>
-        <AppNavbar />
-      </header>
+      <Head>
+        <title>Job search aggregator</title>
+      </Head>
+      <AppNavbar />
       <main>
         <Container style={{ marginTop: '20px' }}>{children}</Container>
       </main>

@@ -1,28 +1,15 @@
 import AppContainer from '@/components/AppContainer';
 import ResultsTable from '@/components/search/ResultsTable';
-import useSearch from '@/hooks/useSearch';
 import { SearchWithResults } from '@/types/Search';
+import { createServerSupabaseClient } from '@supabase/auth-helpers-nextjs';
+import { GetServerSidePropsContext } from 'next';
 import Link from 'next/link';
-import { useRouter } from 'next/router';
-import { useEffect, useState } from 'react';
 import Card from 'react-bootstrap/Card';
 
-const SearchResult = () => {
-  const router = useRouter();
-  const { id } = router.query;
-  const { getSearchResults } = useSearch();
-  const [searchResults, setSearchResults] = useState<SearchWithResults | null>(
-    null
-  );
-
-  useEffect(() => {
-    const getResults = async () => {
-      const data = await getSearchResults(parseInt(id as string));
-      setSearchResults(data as SearchWithResults);
-    };
-    if (id) getResults();
-  }, [id]); // eslint-disable-line react-hooks/exhaustive-deps
-
+type Props = {
+  searchResults: SearchWithResults;
+};
+const SearchResult = ({ searchResults }: Props) => {
   return (
     <AppContainer>
       <Card>
@@ -38,6 +25,27 @@ const SearchResult = () => {
       </Card>
     </AppContainer>
   );
+};
+
+export const getServerSideProps = async (ctx: GetServerSidePropsContext) => {
+  const supabase = createServerSupabaseClient(ctx);
+
+  const { data, error } = await supabase
+    .from('searches')
+    .select('*, jobResults(*)')
+    .eq('id', ctx.params?.id)
+    .single();
+
+  if (!data || error)
+    return {
+      notFound: true,
+    };
+
+  return {
+    props: {
+      SearchResult: data,
+    },
+  };
 };
 
 export default SearchResult;

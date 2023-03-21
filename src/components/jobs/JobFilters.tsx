@@ -1,13 +1,7 @@
-import styled from 'styled-components';
 import Form from 'react-bootstrap/Form';
 import Card from 'react-bootstrap/Card';
 import { JobStatus } from '@/types/Jobs';
-
-const FiltersContainer = styled.div`
-  display: flex;
-  flex-direction: row;
-  flex-wrap: wrap;
-`;
+import { FiltersContainer } from './styles';
 
 type Props = {
   filters: number[];

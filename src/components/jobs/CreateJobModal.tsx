@@ -1,9 +1,34 @@
 import Button from 'react-bootstrap/Button';
 import Modal from 'react-bootstrap/Modal';
 import Form from 'react-bootstrap/Form';
-import { useEffect, useState } from 'react';
+import { useEffect, useReducer, useState } from 'react';
 import useJobs from '@/hooks/useJobs';
 import { Jobs, JobStatus } from '@/types/Jobs';
+
+const initialState = {
+  title: '',
+  company: '',
+  comment: '',
+  url: '',
+  status: 0,
+  recruiter: false,
+};
+
+const reducer = (
+  state: {
+    title: string;
+    company: string;
+    comment: string;
+    url: string;
+    status: number;
+    recruiter: boolean;
+  },
+  action: { type: keyof typeof initialState | 'init' | 'reset'; value: any }
+) => {
+  if (action.type === 'reset') return initialState;
+  if (action.type === 'init') return action.value;
+  return { ...state, [action.type]: action.value };
+};
 
 type Props = {
   show: boolean;
@@ -13,33 +38,19 @@ type Props = {
 const CreateJobModal = ({ show, handleClose, job }: Props) => {
   const { createJob, deleteJob, updateJob } = useJobs();
 
-  const [title, setTitle] = useState<string>('');
-  const [company, setCompany] = useState<string>('');
-  const [comment, setComment] = useState<string>('');
-  const [url, setUrl] = useState<string>('');
-  const [status, setStatus] = useState<number>(0);
-  const [recruiter, setRecruiter] = useState<boolean>(false);
+  const [{ title, company, comment, url, status, recruiter }, dispatch] =
+    useReducer(reducer, initialState);
 
   const [validated, setValidated] = useState<boolean>(false);
 
   const resetForm = () => {
-    setTitle('');
-    setCompany('');
-    setComment('');
-    setUrl('');
-    setStatus(0);
-    setRecruiter(false);
+    dispatch({ type: 'reset', value: null });
   };
 
   useEffect(() => {
     setValidated(false);
     if (job) {
-      setTitle(job.title);
-      setCompany(job.company);
-      setComment(job.comment || '');
-      setUrl(job.url || '');
-      setStatus(job.status || 0);
-      setRecruiter(job.recruiter || false);
+      dispatch({ type: 'init', value: job });
     } else {
       resetForm();
     }
@@ -109,7 +120,9 @@ const CreateJobModal = ({ show, handleClose, job }: Props) => {
               required
               type="text"
               value={title}
-              onChange={({ target }) => setTitle(target.value)}
+              onChange={({ target }) =>
+                dispatch({ type: 'title', value: target.value })
+              }
             />
           </Form.Group>
 
@@ -119,7 +132,9 @@ const CreateJobModal = ({ show, handleClose, job }: Props) => {
               required
               type="text"
               value={company}
-              onChange={({ target }) => setCompany(target.value)}
+              onChange={({ target }) =>
+                dispatch({ type: 'company', value: target.value })
+              }
             />
           </Form.Group>
 
@@ -128,7 +143,9 @@ const CreateJobModal = ({ show, handleClose, job }: Props) => {
             <Form.Control
               type="text"
               value={url}
-              onChange={({ target }) => setUrl(target.value)}
+              onChange={({ target }) =>
+                dispatch({ type: 'url', value: target.value })
+              }
             />
           </Form.Group>
 
@@ -138,7 +155,9 @@ const CreateJobModal = ({ show, handleClose, job }: Props) => {
               as="textarea"
               rows={3}
               value={comment}
-              onChange={({ target }) => setComment(target.value)}
+              onChange={({ target }) =>
+                dispatch({ type: 'comment', value: target.value })
+              }
             />
           </Form.Group>
 
@@ -146,7 +165,9 @@ const CreateJobModal = ({ show, handleClose, job }: Props) => {
             <Form.Label>Status</Form.Label>
             <Form.Select
               aria-label="Select a status"
-              onChange={({ target }) => setStatus(parseInt(target.value))}
+              onChange={({ target }) =>
+                dispatch({ type: 'status', value: parseInt(target.value) })
+              }
               value={status}
             >
               {Object.keys(JobStatus).map((status) => {
@@ -166,7 +187,9 @@ const CreateJobModal = ({ show, handleClose, job }: Props) => {
               id="recruiter-switch"
               label="This is through a recruitment agency"
               checked={recruiter}
-              onChange={({ target }) => setRecruiter(target.checked)}
+              onChange={({ target }) =>
+                dispatch({ type: 'recruiter', value: target.checked })
+              }
             />
           </Form.Group>
         </Form>
